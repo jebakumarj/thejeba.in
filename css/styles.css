@@ -1,0 +1,255 @@
+/* Import Modern Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html, body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body {
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ========================================================================== */
+/* DYNAMIC THEME-BASED BACKGROUND ENVIRONMENT SWITCHING */
+/* ========================================================================== */
+[data-theme="bento"] body, body:not([data-theme]) {
+  background-color: #f2f2f5;
+}
+html.dark[data-theme="bento"] body, html.dark body:not([data-theme]) {
+  background-color: #0b0f19;
+}
+
+[data-theme="modern"] body {
+  background-color: #f8fafc;
+  background-image: radial-gradient(rgba(99, 102, 241, 0.16) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+html.dark[data-theme="modern"] body {
+  background-color: #080c14;
+  background-image: radial-gradient(rgba(99, 102, 241, 0.2) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+[data-theme="cyber"] body {
+  background-color: #090614;
+  background-image: 
+    linear-gradient(to right, rgba(236, 72, 153, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+html.dark[data-theme="cyber"] body {
+  background-color: #05030a;
+}
+
+/* ========================================================================== */
+/* ANIMATIONS & KEYFRAMES */
+/* ========================================================================== */
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Continuously Rotating 360 Conic Border Animation */
+@keyframes borderRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes glowTopLeft {
+  0%, 100% { transform: translate(-20px, -20px) scale(1); opacity: 0.6; }
+  50% { transform: translate(20px, 15px) scale(1.2); opacity: 0.9; }
+}
+
+@keyframes glowBottomRight {
+  0%, 100% { transform: translate(20px, 20px) scale(1); opacity: 0.6; }
+  50% { transform: translate(-20px, -20px) scale(1.25); opacity: 0.85; }
+}
+
+@keyframes floatDrift1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(2deg); }
+}
+
+@keyframes floatDrift2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(16px) rotate(-3deg); }
+}
+
+.animate-spin-slow { animation: spinSlow 14s linear infinite; }
+.fade-in-item { animation: fadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-glow-tl { animation: glowTopLeft 10s ease-in-out infinite; }
+.animate-glow-br { animation: glowBottomRight 12s ease-in-out infinite; }
+
+.animate-elem-1 { animation: floatDrift1 8s ease-in-out infinite; }
+.animate-elem-2 { animation: floatDrift2 10s ease-in-out infinite; }
+
+/* ========================================================================== */
+/* BENTO CARD COLOR TOKENS */
+/* ========================================================================== */
+.bento-hero-bg { background: #7c87db; color: #ffffff; }
+.dark .bento-hero-bg { background: #1e264d; color: #ffffff; }
+
+.bento-teal-bg { background: #a3e6db; color: #0f172a; }
+.dark .bento-teal-bg { background: #143532; color: #a7f3d0; border: 1px solid rgba(16, 185, 129, 0.2); }
+
+.bento-lavender-bg { background: #a485ea; color: #ffffff; }
+.dark .bento-lavender-bg { background: #311b59; color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.2); }
+
+.bento-dark-bg { background: #383b42; color: #ffffff; }
+.dark .bento-dark-bg { background: #141824; color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.08); }
+
+.bento-gold-bg { background: #fcc25a; color: #0f172a; }
+.dark .bento-gold-bg { background: #3b2c11; color: #fef08a; border: 1px solid rgba(234, 179, 8, 0.2); }
+
+.bento-white-bg { background: #ffffff; color: #0f172a; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05); }
+.dark .bento-white-bg { background: #121622; color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5); }
+
+/* ========================================================================== */
+/* FLAWLESS CONTINUOUSLY ROTATING GLOWING BORDER (NO CORNER CLIPPING) */
+/* ========================================================================== */
+.glowing-border-wrapper {
+  position: relative;
+  padding: 3px;
+  border-radius: 0.85rem;
+  overflow: hidden;
+  width: 100%;
+}
+
+.glowing-border-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250%;
+  height: 250%;
+  background: conic-gradient(
+    from 0deg,
+    #6366f1 0%,
+    #a855f7 25%,
+    #ec4899 50%,
+    #38bdf8 75%,
+    #6366f1 100%
+  );
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: borderRotate 6s linear infinite;
+  z-index: 0;
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(0.85rem - 3px);
+}
+
+.card-light-bg {
+  background: #ffffff;
+  box-shadow: 0 25px 60px -15px rgba(99, 102, 241, 0.18);
+}
+.dark .card-light-bg {
+  background: #0f172a;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.7);
+}
+
+/* ========================================================================== */
+/* FLOATING PROGRAMMING TECH BADGES & SYNTAX TOKENS (OUTER GUTTERS) */
+/* ========================================================================== */
+.prog-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  color: #0f172a;
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.dark .prog-badge {
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f8fafc;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+}
+
+.scatter-token {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(203, 213, 225, 0.8);
+  color: #334155;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.dark .scatter-token {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  color: #94a3b8;
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #4f46e5 0%, #0284c7 50%, #9333ea 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dark .text-gradient {
+  background: linear-gradient(135deg, #818cf8 0%, #38bdf8 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Tab Header */
+.bento-tab-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: none;
+}
+.dark .bento-tab-header {
+  background: #1a2032;
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: none;
+}
