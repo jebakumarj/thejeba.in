@@ -39,34 +39,34 @@
 </head>
 
 <body
-  class="transition-colors duration-400 min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-center p-3 sm:p-6 antialiased relative overflow-x-hidden">
+  class="transition-colors duration-400 min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-start sm:justify-center p-3 sm:p-6 pt-16 sm:pt-20 antialiased relative overflow-x-hidden">
 
   <!-- FIXED FLOATING MULTI-THEME & DARK/LIGHT CONTROL BAR (Top Center Header) -->
   <header
-    class="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 p-1.5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 shadow-xl backdrop-blur-md">
+    class="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1.5 sm:gap-2 p-1 sm:p-1.5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 shadow-xl backdrop-blur-md max-w-[calc(100vw-1.5rem)] transition-all duration-300">
 
     <!-- Multi-Theme Switcher Buttons -->
-    <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl text-xs font-mono">
+    <div class="flex items-center gap-0.5 sm:gap-1 bg-slate-100 dark:bg-slate-800/80 p-0.5 sm:p-1 rounded-xl text-xs font-mono">
       <button onclick="switchTheme('bento')" id="btn-theme-bento"
-        class="px-2.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer">
+        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
         <span>🍱</span> Bento
       </button>
       <button onclick="switchTheme('modern')" id="btn-theme-modern"
-        class="px-2.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer">
+        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
         <span>⚡</span> Modern
       </button>
       <button onclick="switchTheme('cyber')" id="btn-theme-cyber"
-        class="px-2.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer">
+        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
         <span>🌌</span> Cyber
       </button>
     </div>
 
     <!-- Divider -->
-    <div class="w-px h-5 bg-slate-300 dark:bg-slate-800"></div>
+    <div class="w-px h-5 bg-slate-300 dark:bg-slate-800 shrink-0"></div>
 
     <!-- Dark / Light Mode Switcher -->
     <button id="theme-toggle-btn" onclick="toggleDarkLight()" type="button"
-      class="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer"
+      class="p-1.5 sm:p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer active:scale-95 shrink-0"
       aria-label="Toggle Dark/Light Mode" title="Toggle Light/Dark Mode">
       <!-- Sun Icon (Dark Mode Active) -->
       <svg class="w-4 h-4 hidden dark:block pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,17 +120,17 @@
         </div>
 
         <div class="mt-8 space-y-1 relative z-10 pl-2 sm:pl-6">
-          <p class="text-xl sm:text-2xl font-semibold text-white/90">Im,</p>
+          <p class="text-xl sm:text-2xl font-semibold text-white/90">I'm,</p>
           <h1 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none">
-            Jebakumar<br>J
+            Jeba
           </h1>
           <p class="text-xs sm:text-sm font-mono text-white/80 pt-2">Senior Software Engineer</p>
         </div>
 
         <div class="pt-6 flex items-end justify-between relative z-10 pl-2 sm:pl-6">
-          <a href="mailto:hello@thejeba.in"
+          <a href="mailto:jjebakumar@outlook.com"
             class="text-xs sm:text-sm font-mono text-white/90 hover:text-white underline underline-offset-4 flex items-center gap-1.5 transition-colors">
-            <span>hello@thejeba.in</span>
+            <span>jjebakumar@outlook.com</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -160,7 +160,7 @@
           <div class="flex items-center gap-2">
             <h1
               class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
-              Portfolio</h1>
+              Jebakumar J</h1>
             <span class="font-display text-3xl sm:text-5xl font-extrabold text-indigo-500">↗</span>
           </div>
           <p class="text-xs sm:text-sm font-mono text-slate-600 dark:text-slate-400 mt-1">Angular • TypeScript • RxJS •
@@ -185,7 +185,9 @@
         </div>
       </div>
 
+      <!-- BENTO TOP ROW: 1 LARGE FEATURED CARD + 2 PROJECT CARDS -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+        <!-- PROJECT 1: FEATURED WEB APP -->
         <a href="https://thirukkural.xyz" target="_blank" rel="noopener"
           class="md:col-span-7 bento-white-bg rounded-3xl p-3.5 relative overflow-hidden group shadow-sm flex flex-col justify-between border border-slate-200 dark:border-slate-800/80">
           <div class="relative aspect-video w-full rounded-2xl overflow-hidden mb-3">
@@ -217,74 +219,71 @@
           </div>
         </a>
 
+        <!-- RIGHT STACK: PROJECT 2 & PROJECT 3 -->
         <div class="md:col-span-5 flex flex-col gap-4 justify-between">
-          <a href="https://github.com/jebakumarj?tab=repositories" target="_blank" rel="noopener"
+          <!-- PROJECT 2: KAASU ANDROID -->
+          <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
             class="bento-teal-bg rounded-3xl p-6 flex-1 flex flex-col justify-between relative shadow-sm group">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80">SHIPPED</span>
+              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📱 ANDROID APP</span>
               <span
                 class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
             </div>
-            <div>
-              <div class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">25+</div>
-              <div class="text-xs font-semibold mt-1">Projects & Web Apps</div>
+            <div class="my-2">
+              <div class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">kaasu-android</div>
+              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Personal finance & expense tracking app for Android</div>
             </div>
+            <div class="text-[11px] font-mono font-bold opacity-80 pt-1">Kotlin / Android SDK</div>
           </a>
 
-          <a href="https://github.com/jebakumarj" target="_blank" rel="noopener"
+          <!-- PROJECT 3: MD-KANBAN -->
+          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
             class="bento-lavender-bg rounded-3xl p-6 flex-1 flex flex-col justify-between relative shadow-sm group">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80">STANDARDS</span>
+              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📌 VS CODE EXTENSION</span>
               <span
                 class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
             </div>
-            <div>
-              <div class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight">100%</div>
-              <div class="text-xs font-semibold mt-1">Open Source & Netlify Ready</div>
+            <div class="my-2">
+              <div class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">md-kanban</div>
+              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Interactive Kanban board view for Markdown files</div>
             </div>
+            <div class="text-[11px] font-mono font-bold opacity-80 pt-1">TypeScript / VS Code API</div>
           </a>
         </div>
       </div>
 
+      <!-- BENTO BOTTOM ROW: PROJECT 4, PROJECT 5, CONTACT FORM -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
-        <div class="md:col-span-4 bento-dark-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-md">
-          <div class="flex justify-between items-center mb-4">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400">TECH STACK</span>
-            <span class="text-xs text-indigo-400">⚡</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 my-2">
-            <div
-              class="p-2 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold flex items-center gap-1.5">
-              🅰️ Angular</div>
-            <div
-              class="p-2 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold flex items-center gap-1.5">
-              <span class="text-blue-400">TS</span> TypeScript</div>
-            <div
-              class="p-2 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold flex items-center gap-1.5">
-              <span class="text-pink-400">Rx</span> RxJS</div>
-            <div
-              class="p-2 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold flex items-center gap-1.5">
-              🎭 Playwright</div>
-          </div>
-          <p class="text-[11px] text-slate-400 mt-2 font-mono">Enterprise Architecture</p>
-        </div>
-
-        <div class="md:col-span-4 bento-gold-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-sm">
+        <!-- PROJECT 4: MD-MANAGER -->
+        <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
+          class="md:col-span-4 bento-gold-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-sm group">
           <div class="flex justify-between items-start">
-            <span class="text-[10px] font-mono uppercase tracking-widest opacity-80">EXTENSIONS & APPS</span>
-            <span class="text-xl font-bold">↗</span>
+            <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📄 VS CODE EXTENSION</span>
+            <span class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
           </div>
-          <div class="my-2 space-y-1.5">
-            <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
-              class="block text-xs font-bold hover:underline truncate">📱 kaasu-android</a>
-            <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
-              class="block text-xs font-bold hover:underline truncate">📌 md-kanban</a>
-            <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
-              class="block text-xs font-bold hover:underline truncate">📄 md-manager</a>
+          <div class="my-2">
+            <div class="font-display text-2xl font-extrabold tracking-tight">md-manager</div>
+            <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Markdown & Changelog manager with PDF export</div>
           </div>
-          <div class="font-display text-3xl font-extrabold tracking-tight">5+ Released</div>
-        </div>
+          <div class="text-[11px] font-mono font-bold opacity-80 pt-1">TypeScript / Node.js</div>
+        </a>
 
+        <!-- PROJECT 5: HOMEPAGE -->
+        <a href="https://github.com/jebakumarj/homepage" target="_blank" rel="noopener"
+          class="md:col-span-4 bento-dark-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-md group">
+          <div class="flex justify-between items-start">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">🌐 WEB DASHBOARD</span>
+            <span class="text-xl font-bold text-indigo-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+          </div>
+          <div class="my-2">
+            <div class="font-display text-2xl font-extrabold tracking-tight text-white">homepage</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Feature-rich customizable browser start page & bookmark suite</div>
+          </div>
+          <div class="text-[11px] font-mono text-indigo-400 font-bold pt-1">JavaScript / HTML5</div>
+        </a>
+
+        <!-- CONTACT FORM CARD -->
         <div
           class="md:col-span-4 bento-white-bg rounded-3xl p-5 relative shadow-sm flex flex-col justify-between border border-slate-200 dark:border-slate-800/80">
           <div>
@@ -415,7 +414,7 @@
                   d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
-            <a href="mailto:hello@thejeba.in" aria-label="Email"
+            <a href="mailto:jjebakumar@outlook.com" aria-label="Email"
               class="p-3 rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700/60 shadow-sm flex items-center justify-center">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -527,200 +526,199 @@
 
 
   <!-- =========================================================================================== -->
-  <!-- THEME 3 HTML STRUCTURE: CYBERPUNK NEON TERMINAL LAYOUT (<main id="theme-cyber-root">) -->
+  <!-- THEME 3 HTML STRUCTURE: AUTHENTIC CYBERPUNK NEON HUD LAYOUT (<main id="theme-cyber-root">) -->
   <!-- =========================================================================================== -->
   <main id="theme-cyber-root"
-    class="hidden w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 my-auto pt-14 pb-2 fade-in-item">
+    class="hidden w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 my-auto pt-14 pb-4 fade-in-item">
 
-    <!-- CYBER HERO TERMINAL (4 Cols) -->
+    <!-- CYBER HERO TERMINAL ASIDE (4 Cols) -->
     <aside class="lg:col-span-4 flex flex-col h-full">
-      <div class="bento-tab-header border-pink-500/50 text-pink-400 bg-slate-900">
-        <span class="animate-pulse">● CYBER_ID</span>
+      <div class="bento-tab-header border-cyan-500/80 text-cyan-400 bg-black/90 font-mono text-[11px] tracking-widest uppercase">
+        <span class="text-[#ffee00] animate-pulse">● CYBERNETIC_ID // V2.06</span>
       </div>
 
       <div
-        class="bento-hero-bg rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden h-full min-h-[460px] lg:min-h-[540px] shadow-2xl">
+        class="cyber-card rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden h-full min-h-[460px] lg:min-h-[540px]">
+        
+        <!-- Glowing Ambient Laser Grid Background -->
+        <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
         <div class="flex justify-center items-center pt-4 sm:pt-6 relative z-10">
           <div
-            class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-2 bg-gradient-to-tr from-pink-500 via-purple-500 to-cyan-400 shadow-2xl flex items-center justify-center">
-            <img src="assets/images/avatar.jpg" alt="Jebakumar J Cyber Avatar"
-              class="w-full h-full object-cover rounded-full border-4 border-pink-500 shadow-inner">
+            class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-2 bg-gradient-to-tr from-[#ff0055] via-[#a855f7] to-[#00f0ff] shadow-2xl flex items-center justify-center">
+            <img src="assets/images/avatar.jpg" alt="Jebakumar J Cyberpunk Avatar"
+              class="w-full h-full object-cover rounded-full border-4 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.8)]">
           </div>
         </div>
 
-        <div class="mt-8 space-y-1 relative z-10 font-mono">
-          <p class="text-xs text-cyan-400 uppercase tracking-widest">&gt; USER_STATUS // ACTIVE</p>
+        <div class="mt-8 space-y-2 relative z-10 font-mono">
+          <div class="flex items-center gap-2">
+            <span class="cyber-tag-yellow text-[10px]">SYS_ONLINE</span>
+            <span class="text-xs text-cyan-400 tracking-widest">&gt; USER_STATUS // ACTIVE</span>
+          </div>
           <h1
-            class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none text-pink-400">
+            class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight leading-none text-[#ff0055] cyber-glow-pink">
             Jebakumar_J
           </h1>
-          <p class="text-xs text-purple-300 pt-2 font-mono">[SR. FRONTEND ENGINEER]</p>
+          <p class="text-xs text-cyan-300 font-mono font-bold tracking-wider">[SR. FRONTEND ENGINEER & ARCHITECT]</p>
         </div>
 
-        <div class="pt-6 flex items-end justify-between relative z-10 font-mono">
-          <a href="mailto:hello@thejeba.in"
-            class="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-4">
-            hello@thejeba.in
+        <div class="pt-6 flex items-end justify-between relative z-10 font-mono border-t border-cyan-500/30">
+          <a href="mailto:jjebakumar@outlook.com"
+            class="text-xs text-[#00f0ff] hover:text-[#ffee00] underline underline-offset-4 cyber-glow-cyan transition-colors">
+            jjebakumar@outlook.com
           </a>
-          <div class="px-2 py-1 rounded bg-pink-500/20 border border-pink-500/50 text-[10px] text-pink-300">
-            SYS_ONLINE 2026
+          <div class="px-2.5 py-1 rounded bg-[#ff0055]/20 border border-[#ff0055]/60 text-[10px] text-pink-300 font-bold tracking-widest">
+            2026_CYBER_EDITION
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- CYBER BENTO CONTENT (8 Cols) -->
+    <!-- CYBER CONTENT DATA NODES (8 Cols) -->
     <section class="lg:col-span-8 space-y-4 lg:space-y-5 flex flex-col justify-between">
-      <header class="flex items-center justify-between pb-2 border-b border-pink-500/30">
+      <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-cyan-500/40">
         <div>
-          <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-pink-500">
-            CYBER_PORTFOLIO ⚡
+          <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-[#00f0ff] cyber-glow-cyan">
+            CYBERPUNK_NODE ⚡
           </h1>
-          <p class="text-xs font-mono text-cyan-400">Angular // TypeScript // RxJS // Playwright E2E</p>
+          <p class="text-xs font-mono text-cyan-400 mt-1">Angular // TypeScript // RxJS // Playwright E2E Automation</p>
         </div>
         <div class="flex gap-2">
-          <a href="https://github.com/jebakumarj" target="_blank" rel="noopener"
-            class="p-2.5 rounded-2xl bg-slate-900 border border-pink-500/40 text-pink-400 hover:bg-pink-500 hover:text-white transition-all">
+          <a href="https://github.com/jebakumarj" target="_blank" rel="noopener" aria-label="GitHub"
+            class="p-2.5 rounded-xl bg-black/80 border border-[#00f0ff] text-[#00f0ff] hover:bg-[#00f0ff] hover:text-black transition-all shadow-[0_0_15px_rgba(0,240,255,0.4)]">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
             </svg>
           </a>
+          <a href="https://www.linkedin.com/in/jjebakumar/" target="_blank" rel="noopener" aria-label="LinkedIn"
+            class="p-2.5 rounded-xl bg-black/80 border border-[#ff0055] text-[#ff0055] hover:bg-[#ff0055] hover:text-white transition-all shadow-[0_0_15px_rgba(255,0,85,0.4)]">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+          </a>
         </div>
       </header>
 
+      <!-- CYBER TOP ROW DATA NODES -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+        <!-- DATA NODE 01: THIRUKKURAL.XYZ -->
         <a href="https://thirukkural.xyz" target="_blank" rel="noopener"
-          class="md:col-span-7 bento-white-bg rounded-3xl p-3.5 relative overflow-hidden group border border-cyan-500/50 shadow-lg">
-          <div class="relative aspect-video w-full rounded-2xl overflow-hidden mb-3">
+          class="md:col-span-7 cyber-card rounded-3xl p-3.5 relative overflow-hidden group">
+          <div class="relative aspect-video w-full rounded-2xl overflow-hidden mb-3 border border-cyan-500/40">
             <img src="assets/images/thirukkural.jpg" alt="thirukkural.xyz Preview"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-90 contrast-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
             <span
-              class="absolute top-3 right-3 text-[10px] font-mono px-2.5 py-1 rounded-full bg-cyan-500 text-black font-bold">ANGULAR_APP
-              ↗</span>
+              class="absolute top-3 right-3 cyber-tag-yellow text-[10px]">DATA_NODE_01 ↗</span>
           </div>
           <div class="flex items-center justify-between px-1 font-mono">
             <div>
-              <h3 class="text-base font-bold text-cyan-400">thirukkural.xyz</h3>
-              <p class="text-xs text-slate-400">Tamil & English Commentary Platform</p>
+              <h3 class="text-base font-bold text-[#00f0ff] cyber-glow-cyan group-hover:text-[#ffee00] transition-colors">
+                thirukkural.xyz</h3>
+              <p class="text-xs text-slate-300">Angular Web App with Tamil & English Commentary</p>
             </div>
-            <span class="text-xs text-pink-400 font-bold">LAUNCH ↗</span>
+            <span class="text-xs text-[#ff0055] font-bold tracking-wider group-hover:translate-x-1 transition-transform">LAUNCH ↗</span>
           </div>
         </a>
 
+        <!-- RIGHT CYBER DATA NODES -->
         <div class="md:col-span-5 flex flex-col gap-4 justify-between">
-          <div class="bento-teal-bg rounded-3xl p-6 flex-1 flex flex-col justify-between">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400">DEPLOYMENTS</span>
-            <div class="font-display text-4xl sm:text-5xl font-extrabold text-emerald-300">25+</div>
-            <div class="text-xs font-mono text-emerald-200">Shipped Web Projects</div>
-          </div>
-          <div class="bento-lavender-bg rounded-3xl p-6 flex-1 flex flex-col justify-between">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-purple-300">QUALITY</span>
-            <div class="font-display text-4xl sm:text-5xl font-extrabold text-purple-200">100%</div>
-            <div class="text-xs font-mono text-purple-300">Automated CI/CD Ready</div>
-          </div>
+          <!-- DATA NODE 02: KAASU ANDROID -->
+          <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
+            class="cyber-card rounded-3xl p-6 flex-1 flex flex-col justify-between group">
+            <div class="flex justify-between items-start font-mono">
+              <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📱 DATA_NODE_02</span>
+              <span
+                class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            </div>
+            <div class="my-2 font-mono">
+              <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">kaasu-android</div>
+              <div class="text-xs text-slate-300 mt-1 line-clamp-2">Personal finance & expense tracking app for Android</div>
+            </div>
+            <div class="text-[11px] font-mono text-cyan-400 font-bold pt-1">Kotlin // Android SDK</div>
+          </a>
+
+          <!-- DATA NODE 03: MD-KANBAN -->
+          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
+            class="cyber-card rounded-3xl p-6 flex-1 flex flex-col justify-between group">
+            <div class="flex justify-between items-start font-mono">
+              <span class="text-[10px] uppercase tracking-widest text-[#ff0055] font-bold">📌 DATA_NODE_03</span>
+              <span
+                class="text-xl font-bold text-[#ff0055] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            </div>
+            <div class="my-2 font-mono">
+              <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#ff0055] transition-colors">md-kanban</div>
+              <div class="text-xs text-slate-300 mt-1 line-clamp-2">Interactive Kanban board view for Markdown files</div>
+            </div>
+            <div class="text-[11px] font-mono text-pink-400 font-bold pt-1">TypeScript // VS Code API</div>
+          </a>
         </div>
       </div>
 
+      <!-- CYBER BOTTOM ROW DATA NODES -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
-        <div class="md:col-span-4 bento-dark-bg rounded-3xl p-6 border border-pink-500/30">
-          <span class="text-[10px] font-mono uppercase text-pink-400">SYS_STACK</span>
-          <div class="grid grid-cols-2 gap-2 my-3 text-xs font-mono text-cyan-300">
-            <div>🅰️ Angular</div>
-            <div>TS TypeScript</div>
-            <div>Rx RxJS</div>
-            <div>🎭 Playwright</div>
+        <!-- DATA NODE 04: MD-MANAGER -->
+        <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
+          class="md:col-span-4 cyber-card rounded-3xl p-6 flex flex-col justify-between group">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📄 DATA_NODE_04</span>
+            <span class="text-xl font-bold text-[#ffee00] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
           </div>
-        </div>
-
-        <div class="md:col-span-4 bento-gold-bg rounded-3xl p-6">
-          <span class="text-[10px] font-mono uppercase text-amber-300">EXTENSIONS</span>
-          <div class="my-2 space-y-1 text-xs font-mono font-bold text-amber-200">
-            <div>📱 kaasu-android</div>
-            <div>📌 md-kanban</div>
-            <div>📄 md-manager</div>
+          <div class="my-2 font-mono">
+            <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#ffee00] transition-colors">md-manager</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Markdown & Changelog manager with PDF export</div>
           </div>
-          <div class="font-display text-2xl font-extrabold text-amber-200">5+ Released</div>
-        </div>
+          <div class="text-[11px] font-mono text-[#ffee00] font-bold pt-1">TypeScript // Node.js</div>
+        </a>
 
-        <div class="md:col-span-4 bento-white-bg rounded-3xl p-5 border border-cyan-500/40">
-          <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2 font-mono">&gt; DIRECT_CONTACT</h3>
-          <form id="contact-form-cyber" name="contact-cyber" method="POST" data-netlify="true" class="space-y-2">
-            <input type="hidden" name="form-name" value="contact-cyber">
-            <input type="text" name="name" required placeholder="Name"
-              class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-900 border border-cyan-500/50 text-cyan-200 placeholder-slate-500">
-            <input type="email" name="email" required placeholder="Email"
-              class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-900 border border-cyan-500/50 text-cyan-200 placeholder-slate-500">
-            <textarea name="message" rows="2" required placeholder="Message..."
-              class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-900 border border-cyan-500/50 text-cyan-200 placeholder-slate-500 resize-none"></textarea>
-            <button type="submit"
-              class="w-full py-1.5 px-3 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs transition-all cursor-pointer font-mono">
-              SEND_MSG ↗
-            </button>
-          </form>
+        <!-- DATA NODE 05: HOMEPAGE -->
+        <a href="https://github.com/jebakumarj/homepage" target="_blank" rel="noopener"
+          class="md:col-span-4 cyber-card rounded-3xl p-6 flex flex-col justify-between group">
+          <div class="flex justify-between items-start font-mono">
+            <span class="text-[10px] uppercase tracking-widest text-[#00f0ff] font-bold">🌐 DATA_NODE_05</span>
+            <span class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+          </div>
+          <div class="my-2 font-mono">
+            <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">homepage</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Feature-rich customizable browser start page & bookmark suite</div>
+          </div>
+          <div class="text-[11px] font-mono text-[#00f0ff] font-bold pt-1">JavaScript // HTML5</div>
+        </a>
+
+        <!-- CYBER TERMINAL CONTACT CARD -->
+        <div class="md:col-span-4 cyber-card rounded-3xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2 font-mono">
+              <h3 class="text-xs font-bold text-[#00f0ff] uppercase tracking-wider cyber-glow-cyan">&gt; TRANSMIT_MSG</h3>
+              <span class="cyber-tag-yellow text-[9px]">NETLIFY_V2</span>
+            </div>
+            <div id="form-status-cyber" class="hidden mb-2 text-xs font-mono"></div>
+            <form id="contact-form-cyber" name="contact-cyber" method="POST" data-netlify="true" class="space-y-2 font-mono">
+              <input type="hidden" name="form-name" value="contact-cyber">
+              <input type="text" name="name" required placeholder="[IDENTIFIER / NAME]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00]">
+              <input type="email" name="email" required placeholder="[COMMUNICATION / EMAIL]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00]">
+              <textarea name="message" rows="2" required placeholder="[TRANSMISSION CONTENT...]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00] resize-none"></textarea>
+              <button type="submit"
+                class="w-full py-2 px-3 rounded-xl bg-[#ffee00] hover:bg-[#00f0ff] text-black font-extrabold text-xs transition-all shadow-[0_0_15px_rgba(255,238,0,0.5)] cursor-pointer tracking-wider">
+                ENGAGE_TRANSMISSION ⚡
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
 
-  <!-- Multi-Theme & Dark Mode JS Controller -->
-  <script>
-    function switchTheme(themeName) {
-      document.documentElement.setAttribute('data-theme', themeName);
-      localStorage.setItem('portfolio-layout-theme', themeName);
-
-      const bentoRoot = document.getElementById('theme-bento-root');
-      const modernRoot = document.getElementById('theme-modern-root');
-      const cyberRoot = document.getElementById('theme-cyber-root');
-
-      // Update Active Theme Selector Button Styles
-      ['bento', 'modern', 'cyber'].forEach(t => {
-        const btn = document.getElementById(`btn-theme-${t}`);
-        if (btn) {
-          if (t === themeName) {
-            btn.className = 'px-2.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer bg-indigo-600 text-white shadow-md';
-          } else {
-            btn.className = 'px-2.5 py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-          }
-        }
-      });
-
-      // Toggle Root HTML Structure Elements for Each Theme
-      if (bentoRoot) bentoRoot.classList.add('hidden');
-      if (modernRoot) modernRoot.classList.add('hidden');
-      if (cyberRoot) cyberRoot.classList.add('hidden');
-
-      if (themeName === 'modern' && modernRoot) {
-        modernRoot.classList.remove('hidden');
-      } else if (themeName === 'cyber' && cyberRoot) {
-        cyberRoot.classList.remove('hidden');
-      } else if (bentoRoot) {
-        bentoRoot.classList.remove('hidden');
-      }
-    }
-
-    function toggleDarkLight() {
-      const htmlEl = document.documentElement;
-      htmlEl.classList.toggle('dark');
-      const isDark = htmlEl.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    }
-
-    // Apply saved preferences on load
-    (function () {
-      const savedDark = localStorage.getItem('theme');
-      if (savedDark === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
-
-      const savedTheme = localStorage.getItem('portfolio-layout-theme') || 'bento';
-      switchTheme(savedTheme);
-    })();
-  </script>
+  <!-- Multi-Theme & Interactivity Controller -->
+  <script src="js/main.js"></script>
 </body>
 
 </html>
