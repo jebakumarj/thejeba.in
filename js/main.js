@@ -4,11 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyEmail();
   initHeaderScrollShadow();
   initFormSubmissions();
+  initRepoStars();
 });
+
+const ACTIVE_BTN_CLASSES = ['bg-indigo-600', 'text-white', 'shadow-md'];
+const INACTIVE_BTN_CLASSES = ['text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-white'];
 
 function switchTheme(themeName) {
   document.documentElement.setAttribute('data-theme', themeName);
-  localStorage.setItem('portfolio-layout-theme', themeName);
+  try { localStorage.setItem('portfolio-layout-theme', themeName); } catch (e) { }
 
   const bentoRoot = document.getElementById('theme-bento-root');
   const modernRoot = document.getElementById('theme-modern-root');
@@ -19,11 +23,10 @@ function switchTheme(themeName) {
   ['bento', 'modern', 'cyber'].forEach(t => {
     const btn = document.getElementById(`btn-theme-${t}`);
     if (btn) {
-      if (t === themeName) {
-        btn.className = 'px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer bg-indigo-600 text-white shadow-md active:scale-95 text-[11px] sm:text-xs';
-      } else {
-        btn.className = 'px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white active:scale-95 text-[11px] sm:text-xs';
-      }
+      const isActive = t === themeName;
+      btn.setAttribute('aria-pressed', String(isActive));
+      ACTIVE_BTN_CLASSES.forEach(c => btn.classList.toggle(c, isActive));
+      INACTIVE_BTN_CLASSES.forEach(c => btn.classList.toggle(c, !isActive));
     }
   });
 
@@ -52,23 +55,17 @@ function toggleDarkLight() {
   const htmlEl = document.documentElement;
   htmlEl.classList.toggle('dark');
   const isDark = htmlEl.classList.contains('dark');
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { }
 }
 
 function initThemeAndLayout() {
-  const savedDark = localStorage.getItem('theme');
-  if (savedDark === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else {
-    document.documentElement.classList.add('dark');
-  }
-
-  const savedTheme = localStorage.getItem('portfolio-layout-theme') || 'bento';
+  // Dark/light mode and data-theme are already applied by the inline script in <head>
+  const savedTheme = document.documentElement.getAttribute('data-theme') || 'bento';
   switchTheme(savedTheme);
 }
 
 function initHeaderScrollShadow() {
-  const header = document.querySelector('header');
+  const header = document.getElementById('control-bar');
   if (!header) return;
 
   window.addEventListener('scroll', () => {
@@ -86,10 +83,36 @@ function initFormSubmissions() {
     const status = document.getElementById(`form-status-${theme}`);
     if (!form) return;
 
-    form.addEventListener('submit', () => {
-      if (status) {
-        status.classList.remove('hidden');
-        status.innerHTML = `<span class="text-emerald-500 font-bold flex items-center gap-1">✓ Thank you! Sending message...</span>`;
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    const showStatus = (text, ok) => {
+      if (!status) return;
+      status.classList.remove('hidden');
+      // Cyber cards stay dark in light mode, so they always use the light-on-dark tones
+      const tone = theme === 'cyber'
+        ? (ok ? 'text-emerald-400' : 'text-rose-400')
+        : (ok ? 'text-emerald-700 dark:text-emerald-400' : 'text-rose-700 dark:text-rose-400');
+      status.innerHTML = `<span class="${tone} font-bold flex items-center gap-1">${text}</span>`;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (submitBtn) submitBtn.disabled = true;
+      showStatus('Sending message...', true);
+
+      try {
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        form.reset();
+        showStatus('✓ Thank you! Your message has been sent.', true);
+      } catch (err) {
+        showStatus('✗ Could not send. Please email jjebakumar@outlook.com instead.', false);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
   });
@@ -137,3 +160,38 @@ function initCopyEmail() {
   }
 }
 
+
+// GitHub star counts on project cards (cached for an hour; badges stay hidden on failure)
+const STARS_CACHE_KEY = 'gh-stars-v1';
+const STARS_CACHE_MS = 60 * 60 * 1000;
+
+async function initRepoStars() {
+  const badges = document.querySelectorAll('.repo-stars[data-repo]');
+  if (!badges.length) return;
+
+  let stars = null;
+  try {
+    const cached = JSON.parse(sessionStorage.getItem(STARS_CACHE_KEY));
+    if (cached && Date.now() - cached.t < STARS_CACHE_MS) stars = cached.stars;
+  } catch (e) { }
+
+  if (!stars) {
+    try {
+      const response = await fetch('https://api.github.com/users/jebakumarj/repos?per_page=100');
+      if (!response.ok) return;
+      const repos = await response.json();
+      stars = Object.fromEntries(repos.map(r => [r.name, r.stargazers_count]));
+      try { sessionStorage.setItem(STARS_CACHE_KEY, JSON.stringify({ t: Date.now(), stars })); } catch (e) { }
+    } catch (e) {
+      return;
+    }
+  }
+
+  badges.forEach(badge => {
+    const count = stars[badge.dataset.repo];
+    if (typeof count !== 'number') return;
+    badge.querySelector('.repo-stars-count').textContent = count.toLocaleString();
+    badge.classList.remove('hidden');
+    badge.classList.add('inline-flex');
+  });
+}

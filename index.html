@@ -17,6 +17,24 @@
     content="Personal Developer Portfolio of Jebakumar J, Senior Software Engineer specializing in Angular, TypeScript, RxJS, NgRx, and test automation. GitHub: jebakumarj.">
   <meta name="author" content="Jebakumar J">
 
+  <!-- Apply saved mode/layout before first paint to avoid a theme flash -->
+  <script>
+    (function () {
+      try {
+        var root = document.documentElement;
+        if (localStorage.getItem('theme') === 'light') root.classList.remove('dark');
+        var layout = localStorage.getItem('portfolio-layout-theme');
+        if (layout === 'bento' || layout === 'modern' || layout === 'cyber') root.setAttribute('data-theme', layout);
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -24,6 +42,16 @@
       darkMode: 'class',
       theme: {
         extend: {
+          screens: {
+            // Desktop windows that are too short for the roomy layout
+            short: { raw: '(min-width: 1024px) and (max-height: 880px)' },
+            tiny: { raw: '(min-width: 1024px) and (max-height: 700px)' },
+          },
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+          },
           colors: {
             slate: {
               950: '#0b0f19',
@@ -39,34 +67,37 @@
 </head>
 
 <body
-  class="transition-colors duration-400 min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-start sm:justify-center p-3 sm:p-6 pt-16 sm:pt-20 antialiased relative overflow-x-hidden">
+  class="min-h-screen min-h-[100dvh] w-full flex flex-col items-center justify-start sm:justify-center p-3 sm:p-6 pb-6 lg:py-4 lg:pr-20 lg:h-[100dvh] antialiased relative overflow-x-hidden">
 
-  <!-- FIXED FLOATING MULTI-THEME & DARK/LIGHT CONTROL BAR (Top Center Header) -->
-  <header
-    class="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1.5 sm:gap-2 p-1 sm:p-1.5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 shadow-xl backdrop-blur-md max-w-[calc(100vw-1.5rem)] transition-all duration-300">
+  <!-- FLOATING MULTI-THEME & DARK/LIGHT CONTROL BAR (Vertical, Bottom Right) -->
+  <header id="control-bar"
+    class="fixed bottom-4 right-4 z-50 flex flex-col items-center gap-1 p-1 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-800 shadow-xl backdrop-blur-md transition-all duration-300">
 
     <!-- Multi-Theme Switcher Buttons -->
-    <div class="flex items-center gap-0.5 sm:gap-1 bg-slate-100 dark:bg-slate-800/80 p-0.5 sm:p-1 rounded-xl text-xs font-mono">
-      <button onclick="switchTheme('bento')" id="btn-theme-bento"
-        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
-        <span>🍱</span> Bento
+    <div role="group" aria-label="Layout theme" class="flex flex-col items-center gap-0.5 bg-slate-100 dark:bg-slate-800/80 p-0.5 rounded-xl">
+      <button onclick="switchTheme('bento')" id="btn-theme-bento" type="button" aria-pressed="false"
+        aria-label="Bento theme" title="Bento theme"
+        class="theme-btn inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm leading-none transition-all cursor-pointer active:scale-95 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        <span aria-hidden="true">🍱</span>
       </button>
-      <button onclick="switchTheme('modern')" id="btn-theme-modern"
-        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
-        <span>⚡</span> Modern
+      <button onclick="switchTheme('modern')" id="btn-theme-modern" type="button" aria-pressed="false"
+        aria-label="Modern theme" title="Modern theme"
+        class="theme-btn inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm leading-none transition-all cursor-pointer active:scale-95 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        <span aria-hidden="true">⚡</span>
       </button>
-      <button onclick="switchTheme('cyber')" id="btn-theme-cyber"
-        class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg font-bold transition-all flex items-center gap-1 cursor-pointer active:scale-95 text-[11px] sm:text-xs">
-        <span>🌌</span> Cyber
+      <button onclick="switchTheme('cyber')" id="btn-theme-cyber" type="button" aria-pressed="false"
+        aria-label="Cyber theme" title="Cyber theme"
+        class="theme-btn inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm leading-none transition-all cursor-pointer active:scale-95 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+        <span aria-hidden="true">🌌</span>
       </button>
     </div>
 
     <!-- Divider -->
-    <div class="w-px h-5 bg-slate-300 dark:bg-slate-800 shrink-0"></div>
+    <div class="w-5 h-px bg-slate-300 dark:bg-slate-700 shrink-0" aria-hidden="true"></div>
 
     <!-- Dark / Light Mode Switcher -->
     <button id="theme-toggle-btn" onclick="toggleDarkLight()" type="button"
-      class="p-1.5 sm:p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer active:scale-95 shrink-0"
+      class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-pointer active:scale-95 shrink-0"
       aria-label="Toggle Dark/Light Mode" title="Toggle Light/Dark Mode">
       <!-- Sun Icon (Dark Mode Active) -->
       <svg class="w-4 h-4 hidden dark:block pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +118,7 @@
   <!-- THEME 1 HTML STRUCTURE: BENTO GRID LAYOUT (<main id="theme-bento-root">) -->
   <!-- ========================================================================= -->
   <main id="theme-bento-root"
-    class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 my-auto pt-14 pb-2 fade-in-item">
+    class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 short:gap-3 my-auto pt-4 pb-2 lg:flex-1 lg:min-h-0 lg:my-0 lg:py-0 fade-in-item">
 
     <!-- LEFT HERO COLUMN (4 Cols) -->
     <aside class="lg:col-span-4 flex flex-col h-full">
@@ -102,28 +133,28 @@
       </div>
 
       <div
-        class="bento-hero-bg rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden h-full min-h-[460px] lg:min-h-[540px] shadow-lg">
+        class="bento-hero-bg rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden flex-1 min-h-[460px] lg:min-h-0 shadow-lg">
         <div
-          class="hidden sm:flex flex-col justify-between absolute left-4 top-10 bottom-10 text-[10px] font-mono uppercase tracking-widest text-white/50 space-y-6 pointer-events-none select-none z-10">
-          <span class="-rotate-90 origin-left">Podcast</span>
-          <span class="-rotate-90 origin-left">Portfolio</span>
-          <span class="-rotate-90 origin-left">Research</span>
-          <span class="-rotate-90 origin-left">Clients</span>
+          class="hidden sm:flex flex-col justify-between absolute left-4 top-10 bottom-10 text-[10px] font-mono uppercase tracking-widest text-white/80 pointer-events-none select-none z-10" aria-hidden="true">
+          <span class="vertical-label">Podcast</span>
+          <span class="vertical-label">Portfolio</span>
+          <span class="vertical-label">Research</span>
+          <span class="vertical-label">Clients</span>
         </div>
 
         <div class="flex justify-center items-center pt-4 sm:pt-6 relative z-10">
           <div
-            class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-2 bg-gradient-to-tr from-pink-400 via-purple-300 to-indigo-200 shadow-2xl flex items-center justify-center">
+            class="relative w-36 h-36 sm:w-44 sm:h-44 short:w-32 short:h-32 tiny:w-24 tiny:h-24 rounded-full p-2 bg-gradient-to-tr from-pink-400 via-purple-300 to-indigo-200 shadow-2xl flex items-center justify-center">
             <img src="assets/images/avatar.jpg" alt="Jebakumar J Avatar"
               class="w-full h-full object-cover rounded-full border-4 border-white/90 shadow-inner">
           </div>
         </div>
 
-        <div class="mt-8 space-y-1 relative z-10 pl-2 sm:pl-6">
+        <div class="mt-8 short:mt-4 space-y-1 relative z-10 pl-2 sm:pl-6">
           <p class="text-xl sm:text-2xl font-semibold text-white/90">I'm,</p>
-          <h1 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none">
+          <p class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-none">
             Jeba
-          </h1>
+          </p>
           <p class="text-xs sm:text-sm font-mono text-white/80 pt-2">Senior Software Engineer</p>
         </div>
 
@@ -153,15 +184,15 @@
     </aside>
 
     <!-- RIGHT BENTO CARDS AREA (8 Cols) -->
-    <section class="lg:col-span-8 space-y-4 lg:space-y-5 flex flex-col justify-between">
+    <section class="lg:col-span-8 space-y-4 lg:space-y-5 short:space-y-3 flex flex-col justify-between lg:min-h-0">
       <div
         class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-slate-300/60 dark:border-slate-800">
         <div>
           <div class="flex items-center gap-2">
             <h1
-              class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
+              class="font-display text-3xl min-[400px]:text-4xl sm:text-6xl short:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
               Jebakumar J</h1>
-            <span class="font-display text-3xl sm:text-5xl font-extrabold text-indigo-500">↗</span>
+            <span class="font-display text-2xl min-[400px]:text-3xl sm:text-5xl short:text-3xl font-extrabold text-indigo-500" aria-hidden="true">↗</span>
           </div>
           <p class="text-xs sm:text-sm font-mono text-slate-600 dark:text-slate-400 mt-1">Angular • TypeScript • RxJS •
             NgRx • Playwright QA Automation</p>
@@ -186,125 +217,117 @@
       </div>
 
       <!-- BENTO TOP ROW: 1 LARGE FEATURED CARD + 2 PROJECT CARDS -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 short:gap-3 lg:flex-1 lg:min-h-0">
         <!-- PROJECT 1: FEATURED WEB APP -->
         <a href="https://thirukkural.xyz" target="_blank" rel="noopener"
           class="md:col-span-7 bento-white-bg rounded-3xl p-3.5 relative overflow-hidden group shadow-sm flex flex-col justify-between border border-slate-200 dark:border-slate-800/80">
-          <div class="relative aspect-video w-full rounded-2xl overflow-hidden mb-3">
-            <img src="assets/images/thirukkural.jpg" alt="thirukkural.xyz Preview"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div
-                class="w-12 h-12 rounded-full bg-white/90 text-slate-900 shadow-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
+          <div class="relative aspect-video lg:aspect-auto lg:flex-1 lg:min-h-[120px] w-full rounded-2xl overflow-hidden mb-3">
+            <img src="assets/images/thirukkural.jpg" alt="thirukkural.xyz home page showing the Kural of the Day"
+              class="lg:absolute lg:inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
             <span
               class="absolute top-3 right-3 text-[10px] font-mono px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20">Angular
               App ↗</span>
           </div>
-          <div class="flex items-center justify-between px-1">
+          <div class="flex items-center justify-between gap-3 px-1">
             <div>
               <h3
-                class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-500 transition-colors">
+                class="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 thirukkural.xyz</h3>
               <p class="text-xs text-slate-500 dark:text-slate-400">Angular Web App with Tamil & English Commentary</p>
             </div>
-            <span
-              class="text-xs font-mono text-indigo-500 font-bold group-hover:translate-x-0.5 transition-transform">Launch
-              ↗</span>
+            <span class="flex items-center gap-3 shrink-0"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-300" data-repo="thirukkural.xyz" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+              class="text-xs font-mono text-indigo-600 dark:text-indigo-400 font-bold group-hover:translate-x-0.5 transition-transform whitespace-nowrap shrink-0">Launch
+              ↗</span></span>
           </div>
         </a>
 
         <!-- RIGHT STACK: PROJECT 2 & PROJECT 3 -->
-        <div class="md:col-span-5 flex flex-col gap-4 justify-between">
+        <div class="md:col-span-5 flex flex-col gap-4 short:gap-3 justify-between">
           <!-- PROJECT 2: KAASU ANDROID -->
-          <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
-            class="bento-teal-bg rounded-3xl p-6 flex-1 flex flex-col justify-between relative shadow-sm group">
+          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
+            class="bento-teal-bg rounded-3xl p-6 short:p-4 flex-1 flex flex-col justify-between relative shadow-sm group">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📱 ANDROID APP</span>
-              <span
-                class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+              <span class="text-[10px] font-mono uppercase tracking-widest opacity-90 font-bold">📌 VS CODE EXTENSION</span>
+              <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold opacity-90" data-repo="md-kanban" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
             </div>
-            <div class="my-2">
-              <div class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">kaasu-android</div>
-              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Personal finance & expense tracking app for Android</div>
+            <div class="my-2 short:my-1">
+              <div class="font-display text-2xl short:text-xl font-extrabold tracking-tight">md-kanban</div>
+              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2 short:line-clamp-1 tiny:hidden">Interactive Kanban board view for Markdown files</div>
             </div>
-            <div class="text-[11px] font-mono font-bold opacity-80 pt-1">Kotlin / Android SDK</div>
+            <div class="text-[11px] font-mono font-bold opacity-90 pt-1">TypeScript / VS Code API</div>
           </a>
 
           <!-- PROJECT 3: MD-KANBAN -->
-          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
-            class="bento-lavender-bg rounded-3xl p-6 flex-1 flex flex-col justify-between relative shadow-sm group">
+          <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
+            class="bento-lavender-bg rounded-3xl p-6 short:p-4 flex-1 flex flex-col justify-between relative shadow-sm group">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📌 VS CODE EXTENSION</span>
-              <span
-                class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+              <span class="text-[10px] font-mono uppercase tracking-widest opacity-90 font-bold">📄 VS CODE EXTENSION</span>
+              <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold opacity-90" data-repo="md-manager" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
             </div>
-            <div class="my-2">
-              <div class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">md-kanban</div>
-              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Interactive Kanban board view for Markdown files</div>
+            <div class="my-2 short:my-1">
+              <div class="font-display text-2xl short:text-xl font-extrabold tracking-tight">md-manager</div>
+              <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2 short:line-clamp-1 tiny:hidden">Markdown & Changelog manager with PDF export</div>
             </div>
-            <div class="text-[11px] font-mono font-bold opacity-80 pt-1">TypeScript / VS Code API</div>
+            <div class="text-[11px] font-mono font-bold opacity-90 pt-1">TypeScript / Node.js</div>
           </a>
         </div>
       </div>
 
       <!-- BENTO BOTTOM ROW: PROJECT 4, PROJECT 5, CONTACT FORM -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 short:gap-3">
         <!-- PROJECT 4: MD-MANAGER -->
-        <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
-          class="md:col-span-4 bento-gold-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-sm group">
+        <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
+          class="md:col-span-4 bento-gold-bg rounded-3xl p-6 short:p-4 flex flex-col justify-between relative shadow-sm group">
           <div class="flex justify-between items-start">
-            <span class="text-[10px] font-mono uppercase tracking-widest opacity-80 font-bold">📄 VS CODE EXTENSION</span>
-            <span class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            <span class="text-[10px] font-mono uppercase tracking-widest opacity-90 font-bold">📱 ANDROID APP</span>
+            <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold opacity-90" data-repo="kaasu-android" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span class="text-xl font-bold group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
           </div>
-          <div class="my-2">
-            <div class="font-display text-2xl font-extrabold tracking-tight">md-manager</div>
-            <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Markdown & Changelog manager with PDF export</div>
+          <div class="my-2 short:my-1">
+            <div class="font-display text-2xl short:text-xl font-extrabold tracking-tight">kaasu-android</div>
+            <div class="text-xs font-semibold mt-1 opacity-90 line-clamp-2">Personal finance & expense tracking app for Android</div>
           </div>
-          <div class="text-[11px] font-mono font-bold opacity-80 pt-1">TypeScript / Node.js</div>
+          <div class="text-[11px] font-mono font-bold opacity-90 pt-1">Kotlin / Android SDK</div>
         </a>
 
         <!-- PROJECT 5: HOMEPAGE -->
-        <a href="https://github.com/jebakumarj/homepage" target="_blank" rel="noopener"
-          class="md:col-span-4 bento-dark-bg rounded-3xl p-6 flex flex-col justify-between relative shadow-md group">
+        <a href="https://github.com/jebakumarj/deckdown" target="_blank" rel="noopener"
+          class="md:col-span-4 bento-dark-bg rounded-3xl p-6 short:p-4 flex flex-col justify-between relative shadow-md group">
           <div class="flex justify-between items-start">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400 font-bold">🌐 WEB DASHBOARD</span>
-            <span class="text-xl font-bold text-indigo-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-300 dark:text-slate-400 font-bold">🎞️ WEB APP</span>
+            <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold opacity-90" data-repo="deckdown" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span class="text-xl font-bold text-indigo-300 dark:text-indigo-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
           </div>
-          <div class="my-2">
-            <div class="font-display text-2xl font-extrabold tracking-tight text-white">homepage</div>
-            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Feature-rich customizable browser start page & bookmark suite</div>
+          <div class="my-2 short:my-1">
+            <div class="font-display text-2xl short:text-xl font-extrabold tracking-tight text-white">deckdown</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Markdown to minimal slide decks, in the browser</div>
           </div>
-          <div class="text-[11px] font-mono text-indigo-400 font-bold pt-1">JavaScript / HTML5</div>
+          <div class="text-[11px] font-mono text-indigo-300 dark:text-indigo-400 font-bold pt-1">TypeScript / KaTeX</div>
         </a>
 
         <!-- CONTACT FORM CARD -->
         <div
-          class="md:col-span-4 bento-white-bg rounded-3xl p-5 relative shadow-sm flex flex-col justify-between border border-slate-200 dark:border-slate-800/80">
+          class="md:col-span-4 bento-white-bg rounded-3xl p-5 short:p-4 relative shadow-sm flex flex-col justify-between border border-slate-200 dark:border-slate-800/80">
           <div>
             <div class="flex items-center justify-between mb-2">
               <h3 class="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">Direct Contact
               </h3>
-              <span class="text-[10px] font-mono text-emerald-500 font-bold">Netlify Form</span>
+              <span class="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 font-bold">Netlify Form</span>
             </div>
-            <div id="form-status-bento" class="hidden mb-2 text-xs"></div>
+            <div id="form-status-bento" role="status" aria-live="polite" class="hidden mb-2 text-xs"></div>
             <form id="contact-form-bento" name="contact-bento" method="POST" data-netlify="true"
               netlify-honeypot="bot-field" class="space-y-2">
               <input type="hidden" name="form-name" value="contact-bento">
-              <p class="hidden"><input name="bot-field" /></p>
-              <input type="text" name="name" required placeholder="Your Name"
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500">
-              <input type="email" name="email" required placeholder="Your Email"
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500">
-              <textarea name="message" rows="2" required placeholder="Your message..."
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+              <p class="hidden"><input name="bot-field" tabindex="-1" autocomplete="off" /></p>
+              <input type="text" name="name" required aria-label="Your name" autocomplete="name" placeholder="Your Name"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500">
+              <input type="email" name="email" required aria-label="Your email" autocomplete="email" placeholder="Your Email"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500">
+              <textarea name="message" rows="2" required aria-label="Your message" placeholder="Your message..."
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500 resize-none short:h-10"></textarea>
               <button type="submit"
-                class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
+                class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
                 <span>Send Message ✉️</span>
               </button>
             </form>
@@ -318,23 +341,23 @@
   <!-- ======================================================================================== -->
   <!-- THEME 2 HTML STRUCTURE: SHARP MODERN CARD LAYOUT (<main id="theme-modern-root">) -->
   <!-- ======================================================================================== -->
-  <main id="theme-modern-root" class="hidden w-full max-w-5xl mx-auto pt-14 pb-2 fade-in-item relative">
+  <main id="theme-modern-root" class="hidden w-full max-w-5xl mx-auto pt-4 pb-2 fade-in-item relative">
 
     <!-- 4-Side Moving Ambient Glow Orbs in Background -->
     <div
-      class="fixed top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-64 sm:w-[650px] sm:h-80 bg-gradient-to-b from-cyan-500/30 via-indigo-500/20 to-transparent rounded-full blur-3xl pointer-events-none animate-glow-tl z-0">
+      class="fixed inset-x-0 mx-auto -top-32 sm:-top-40 w-80 h-64 sm:w-[650px] sm:h-80 bg-gradient-to-b from-cyan-500/30 via-indigo-500/20 to-transparent rounded-full blur-3xl pointer-events-none animate-glow-tl z-0">
     </div>
     <div
-      class="fixed bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-64 sm:w-[650px] sm:h-80 bg-gradient-to-t from-pink-500/30 via-purple-500/20 to-transparent rounded-full blur-3xl pointer-events-none animate-glow-br z-0">
+      class="fixed inset-x-0 mx-auto -bottom-32 sm:-bottom-40 w-80 h-64 sm:w-[650px] sm:h-80 bg-gradient-to-t from-pink-500/30 via-purple-500/20 to-transparent rounded-full blur-3xl pointer-events-none animate-glow-br z-0">
     </div>
 
     <!-- ANCHORED FLOATING TECH BADGES (RELATIVE TO CARD CONTAINER - ZERO OVERLAP z-20) -->
-    <div class="hidden xl:flex absolute -left-28 top-8 prog-badge animate-elem-1">
+    <div class="hidden 2xl:flex absolute -left-28 top-8 prog-badge animate-elem-1">
       <span class="text-red-500 font-bold">🅰️</span>
       <span>Angular 18+</span>
     </div>
 
-    <div class="hidden xl:flex absolute -right-28 top-8 prog-badge animate-elem-2">
+    <div class="hidden 2xl:flex absolute -right-28 top-8 prog-badge animate-elem-2">
       <span class="text-blue-500 font-bold">TS</span>
       <span>TypeScript</span>
     </div>
@@ -349,29 +372,29 @@
       <span>Playwright E2E</span>
     </div>
 
-    <div class="hidden xl:flex absolute -left-28 bottom-12 prog-badge animate-elem-2">
+    <div class="hidden 2xl:flex absolute -left-28 bottom-12 prog-badge animate-elem-2">
       <span class="text-purple-500 font-bold">⚡</span>
       <span>NgRx State</span>
     </div>
 
-    <div class="hidden xl:flex absolute -right-28 bottom-12 prog-badge animate-elem-1">
+    <div class="hidden 2xl:flex absolute -right-28 bottom-12 prog-badge animate-elem-1">
       <span class="text-amber-500 font-bold">⎇</span>
       <span>git main*</span>
     </div>
 
     <!-- MAIN CARD WITH FLAWLESS ROTATING CONIC GLOWING BORDER -->
     <div class="w-full glowing-border-wrapper shadow-2xl relative z-10">
-      <div class="card-content card-light-bg p-5 sm:p-8 lg:p-9">
+      <div class="card-content card-light-bg p-5 sm:p-8 lg:p-9 short:p-6">
 
         <!-- Profile Header -->
         <header
-          class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-slate-200 dark:border-slate-800">
-          <div class="flex items-center gap-5 sm:gap-6">
+          class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 short:gap-4 pb-6 short:pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <img src="assets/images/avatar.jpg" alt="Jebakumar J Avatar"
-              class="w-20 h-20 sm:w-28 sm:h-28 lg:w-30 lg:h-30 object-cover rounded-lg shrink-0 shadow-lg">
+              class="w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 short:w-20 short:h-20 object-cover rounded-lg shrink-0 shadow-lg">
             <div class="space-y-1">
               <h1
-                class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
+                class="font-display text-2xl sm:text-4xl lg:text-5xl short:text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
                 Jebakumar J</h1>
               <p class="text-sm sm:text-lg font-bold text-gradient">Hi, I'm Jeba! Senior Software Engineer</p>
               <div
@@ -382,7 +405,7 @@
               </div>
 
               <!-- Inline Tech Stack Pills for mobile/laptops -->
-              <div class="flex xl:hidden flex-wrap items-center gap-1.5 pt-2">
+              <div class="flex 2xl:hidden flex-wrap items-center gap-1.5 pt-2">
                 <span
                   class="px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[11px] font-mono font-bold">🅰️
                   Angular 18+</span>
@@ -401,21 +424,21 @@
 
           <div class="flex items-center gap-3">
             <a href="https://github.com/jebakumarj" target="_blank" rel="noopener" aria-label="GitHub"
-              class="p-3 rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700/60 shadow-sm">
+              class="p-3 rounded-md bg-white/85 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-200 hover:border-indigo-600 dark:border-slate-700/60 shadow-sm">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
               </svg>
             </a>
             <a href="https://www.linkedin.com/in/jjebakumar/" target="_blank" rel="noopener" aria-label="LinkedIn"
-              class="p-3 rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700/60 shadow-sm">
+              class="p-3 rounded-md bg-white/85 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-200 hover:border-indigo-600 dark:border-slate-700/60 shadow-sm">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
             <a href="mailto:jjebakumar@outlook.com" aria-label="Email"
-              class="p-3 rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700/60 shadow-sm flex items-center justify-center">
+              class="p-3 rounded-md bg-white/85 dark:bg-slate-800/80 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 border border-slate-200 hover:border-indigo-600 dark:border-slate-700/60 shadow-sm flex items-center justify-center">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -425,97 +448,96 @@
         </header>
 
         <!-- Projects Grid -->
-        <section class="pt-6">
+        <section class="pt-6 short:pt-4">
           <h2 class="text-xs font-mono uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-bold mb-3">
             Featured Projects</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <a href="https://thirukkural.xyz" target="_blank" rel="noopener"
-              class="block p-3.5 rounded-md bg-slate-200/60 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300/80 dark:border-slate-800 transition-all shadow-sm">
+              class="block p-3.5 rounded-md bg-white/85 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
                 <span>thirukkural.xyz</span>
-                <span
+                <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400" data-repo="thirukkural.xyz" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
                   class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">Angular
-                  App</span>
+                  App</span></span>
               </div>
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Angular Web App for Thirukkural
                 with Tamil & English commentary.</p>
             </a>
 
-            <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
-              class="block p-3.5 rounded-md bg-slate-200/60 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300/80 dark:border-slate-800 transition-all shadow-sm">
-              <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
-                <span>kaasu-android</span>
-                <span
-                  class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">Android
-                  App</span>
-              </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Personal finance & expense
-                tracking application for Android.</p>
-            </a>
-
             <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
-              class="block p-3.5 rounded-md bg-slate-200/60 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300/80 dark:border-slate-800 transition-all shadow-sm">
+              class="block p-3.5 rounded-md bg-white/85 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
                 <span>md-kanban</span>
-                <span
+                <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400" data-repo="md-kanban" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
                   class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">VS
-                  Code</span>
+                  Code</span></span>
               </div>
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Markdown kanban board extension
                 for VS Code.</p>
             </a>
 
             <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
-              class="block p-3.5 rounded-md bg-slate-200/60 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300/80 dark:border-slate-800 transition-all shadow-sm">
+              class="block p-3.5 rounded-md bg-white/85 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
                 <span>md-manager</span>
-                <span
+                <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400" data-repo="md-manager" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
                   class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">VS
-                  Code</span>
+                  Code</span></span>
               </div>
               <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Markdown & Changelog manager
                 with PDF export.</p>
             </a>
 
-            <a href="https://github.com/jebakumarj/homepage" target="_blank" rel="noopener"
-              class="block p-3.5 rounded-md bg-slate-200/60 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-800/80 border border-slate-300/80 dark:border-slate-800 transition-all shadow-sm sm:col-span-2 lg:col-span-2">
+            <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
+              class="block p-3.5 rounded-md bg-white/85 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md">
               <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
-                <span>homepage</span>
-                <span
-                  class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">JavaScript</span>
+                <span>kaasu-android</span>
+                <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400" data-repo="kaasu-android" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                  class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">Android
+                  App</span></span>
               </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Feature-rich browser start page.
-              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Personal finance & expense
+                tracking application for Android.</p>
+            </a>
+
+            <a href="https://github.com/jebakumarj/deckdown" target="_blank" rel="noopener"
+              class="block p-3.5 rounded-md bg-white/85 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-800/80 border border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md sm:col-span-2 lg:col-span-2">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-slate-100">
+                <span>deckdown</span>
+                <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400" data-repo="deckdown" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                  class="text-[10px] font-mono px-2 py-0.5 rounded-sm bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20">TypeScript</span></span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1.5 line-clamp-2">Write Markdown, get a minimal slide deck with presenter mode and PDF export — right in the browser.</p>
             </a>
           </div>
         </section>
 
         <!-- Direct Contact -->
-        <section class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800">
+        <section class="mt-6 pt-5 short:mt-4 short:pt-4 border-t border-slate-200 dark:border-slate-800">
           <h2 class="text-xs font-mono uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-bold mb-2">
             Direct Contact</h2>
-          <div id="form-status-modern" class="hidden mb-2 text-xs"></div>
+          <div id="form-status-modern" role="status" aria-live="polite" class="hidden mb-2 text-xs"></div>
           <form id="contact-form-modern" name="contact-modern" method="POST" data-netlify="true"
             netlify-honeypot="bot-field" class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
             <input type="hidden" name="form-name" value="contact-modern">
-            <p class="hidden"><input name="bot-field" /></p>
+            <p class="hidden"><input name="bot-field" tabindex="-1" autocomplete="off" /></p>
             <div class="sm:col-span-4">
-              <input type="text" name="name" required placeholder="Your Name"
-                class="w-full px-3 py-2 text-xs rounded-md bg-slate-200/70 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+              <input type="text" name="name" required aria-label="Your name" autocomplete="name" placeholder="Your Name"
+                class="w-full px-3 py-2 text-xs rounded-md bg-white/85 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500">
             </div>
             <div class="sm:col-span-4">
-              <input type="email" name="email" required placeholder="Your Email"
-                class="w-full px-3 py-2 text-xs rounded-md bg-slate-200/70 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+              <input type="email" name="email" required aria-label="Your email" autocomplete="email" placeholder="Your Email"
+                class="w-full px-3 py-2 text-xs rounded-md bg-white/85 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500">
             </div>
             <div class="sm:col-span-4">
               <button type="submit"
-                class="w-full py-2 px-4 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-md cursor-pointer">
+                class="w-full py-2 px-4 rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
                 <span>Send Message ✉️</span>
               </button>
             </div>
             <div class="sm:col-span-12">
-              <textarea name="message" rows="2" required placeholder="Your message..."
-                class="w-full px-3 py-2 text-xs rounded-md bg-slate-200/70 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+              <textarea name="message" rows="2" required aria-label="Your message" placeholder="Your message..."
+                class="w-full px-3 py-2 text-xs rounded-md bg-white/85 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:border-indigo-500 resize-none short:h-10"></textarea>
             </div>
           </form>
         </section>
@@ -529,16 +551,16 @@
   <!-- THEME 3 HTML STRUCTURE: AUTHENTIC CYBERPUNK NEON HUD LAYOUT (<main id="theme-cyber-root">) -->
   <!-- =========================================================================================== -->
   <main id="theme-cyber-root"
-    class="hidden w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 my-auto pt-14 pb-4 fade-in-item">
+    class="hidden w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5 short:gap-3 my-auto pt-4 pb-4 lg:flex-1 lg:min-h-0 lg:my-0 lg:py-0 fade-in-item">
 
     <!-- CYBER HERO TERMINAL ASIDE (4 Cols) -->
     <aside class="lg:col-span-4 flex flex-col h-full">
-      <div class="bento-tab-header border-cyan-500/80 text-cyan-400 bg-black/90 font-mono text-[11px] tracking-widest uppercase">
+      <div class="bento-tab-header cyber-tab-header self-start font-mono text-[11px] tracking-widest uppercase">
         <span class="text-[#ffee00] animate-pulse">● CYBERNETIC_ID // V2.06</span>
       </div>
 
       <div
-        class="cyber-card rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden h-full min-h-[460px] lg:min-h-[540px]">
+        class="cyber-card rounded-b-3xl rounded-tr-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden flex-1 min-h-[460px] lg:min-h-0">
         
         <!-- Glowing Ambient Laser Grid Background -->
         <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -546,25 +568,25 @@
 
         <div class="flex justify-center items-center pt-4 sm:pt-6 relative z-10">
           <div
-            class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full p-2 bg-gradient-to-tr from-[#ff0055] via-[#a855f7] to-[#00f0ff] shadow-2xl flex items-center justify-center">
+            class="relative w-36 h-36 sm:w-44 sm:h-44 short:w-32 short:h-32 tiny:w-24 tiny:h-24 rounded-full p-2 bg-gradient-to-tr from-[#ff0055] via-[#a855f7] to-[#00f0ff] shadow-2xl flex items-center justify-center">
             <img src="assets/images/avatar.jpg" alt="Jebakumar J Cyberpunk Avatar"
               class="w-full h-full object-cover rounded-full border-4 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.8)]">
           </div>
         </div>
 
-        <div class="mt-8 space-y-2 relative z-10 font-mono">
-          <div class="flex items-center gap-2">
+        <div class="mt-8 short:mt-4 space-y-2 relative z-10 font-mono">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="cyber-tag-yellow text-[10px]">SYS_ONLINE</span>
             <span class="text-xs text-cyan-400 tracking-widest">&gt; USER_STATUS // ACTIVE</span>
           </div>
           <h1
-            class="font-display text-4xl sm:text-5xl font-extrabold tracking-tight leading-none text-[#ff0055] cyber-glow-pink">
+            class="font-display text-2xl min-[400px]:text-[1.75rem] sm:text-5xl lg:text-[1.75rem] font-extrabold tracking-tight leading-none text-[#ff0055] cyber-glow-pink break-words">
             Jebakumar_J
           </h1>
           <p class="text-xs text-cyan-300 font-mono font-bold tracking-wider">[SR. FRONTEND ENGINEER & ARCHITECT]</p>
         </div>
 
-        <div class="pt-6 flex items-end justify-between relative z-10 font-mono border-t border-cyan-500/30">
+        <div class="mt-6 pt-4 flex flex-wrap items-end justify-between gap-3 relative z-10 font-mono border-t border-cyan-500/30">
           <a href="mailto:jjebakumar@outlook.com"
             class="text-xs text-[#00f0ff] hover:text-[#ffee00] underline underline-offset-4 cyber-glow-cyan transition-colors">
             jjebakumar@outlook.com
@@ -577,12 +599,12 @@
     </aside>
 
     <!-- CYBER CONTENT DATA NODES (8 Cols) -->
-    <section class="lg:col-span-8 space-y-4 lg:space-y-5 flex flex-col justify-between">
-      <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-cyan-500/40">
+    <section class="lg:col-span-8 space-y-4 lg:space-y-5 short:space-y-3 flex flex-col justify-between lg:min-h-0">
+      <header class="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-3 pb-3 border-b border-cyan-500/40">
         <div>
-          <h1 class="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-[#00f0ff] cyber-glow-cyan">
+          <p class="font-display text-xl sm:text-4xl font-extrabold tracking-tight text-[#00f0ff] cyber-glow-cyan break-words">
             CYBERPUNK_NODE ⚡
-          </h1>
+          </p>
           <p class="text-xs font-mono text-cyan-400 mt-1">Angular // TypeScript // RxJS // Playwright E2E Automation</p>
         </div>
         <div class="flex gap-2">
@@ -604,109 +626,111 @@
       </header>
 
       <!-- CYBER TOP ROW DATA NODES -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 short:gap-3 lg:flex-1 lg:min-h-0">
         <!-- DATA NODE 01: THIRUKKURAL.XYZ -->
         <a href="https://thirukkural.xyz" target="_blank" rel="noopener"
-          class="md:col-span-7 cyber-card rounded-3xl p-3.5 relative overflow-hidden group">
-          <div class="relative aspect-video w-full rounded-2xl overflow-hidden mb-3 border border-cyan-500/40">
-            <img src="assets/images/thirukkural.jpg" alt="thirukkural.xyz Preview"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-90 contrast-110">
+          class="md:col-span-7 cyber-card rounded-3xl p-3.5 relative overflow-hidden group flex flex-col justify-between">
+          <div class="relative aspect-video lg:aspect-auto lg:flex-1 lg:min-h-[120px] w-full rounded-2xl overflow-hidden mb-3 border border-cyan-500/40">
+            <img src="assets/images/thirukkural.jpg" alt="thirukkural.xyz home page showing the Kural of the Day"
+              class="lg:absolute lg:inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 filter brightness-90 contrast-110">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
             <span
               class="absolute top-3 right-3 cyber-tag-yellow text-[10px]">DATA_NODE_01 ↗</span>
           </div>
-          <div class="flex items-center justify-between px-1 font-mono">
+          <div class="flex items-center justify-between gap-3 px-1 font-mono">
             <div>
               <h3 class="text-base font-bold text-[#00f0ff] cyber-glow-cyan group-hover:text-[#ffee00] transition-colors">
                 thirukkural.xyz</h3>
               <p class="text-xs text-slate-300">Angular Web App with Tamil & English Commentary</p>
             </div>
-            <span class="text-xs text-[#ff0055] font-bold tracking-wider group-hover:translate-x-1 transition-transform">LAUNCH ↗</span>
+            <span class="flex items-center gap-3 shrink-0"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-300" data-repo="thirukkural.xyz" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span class="text-xs text-[#ff0055] font-bold tracking-wider group-hover:translate-x-1 transition-transform whitespace-nowrap shrink-0">LAUNCH ↗</span></span>
           </div>
         </a>
 
         <!-- RIGHT CYBER DATA NODES -->
-        <div class="md:col-span-5 flex flex-col gap-4 justify-between">
+        <div class="md:col-span-5 flex flex-col gap-4 short:gap-3 justify-between">
           <!-- DATA NODE 02: KAASU ANDROID -->
-          <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
-            class="cyber-card rounded-3xl p-6 flex-1 flex flex-col justify-between group">
+          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
+            class="cyber-card rounded-3xl p-6 short:p-4 flex-1 flex flex-col justify-between group">
             <div class="flex justify-between items-start font-mono">
-              <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📱 DATA_NODE_02</span>
-              <span
-                class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+              <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📌 DATA_NODE_02</span>
+              <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-300" data-repo="md-kanban" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
             </div>
-            <div class="my-2 font-mono">
-              <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">kaasu-android</div>
-              <div class="text-xs text-slate-300 mt-1 line-clamp-2">Personal finance & expense tracking app for Android</div>
+            <div class="my-2 short:my-1 font-mono">
+              <div class="font-display text-2xl short:text-xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">md-kanban</div>
+              <div class="text-xs text-slate-300 mt-1 line-clamp-2 short:line-clamp-1 tiny:hidden">Interactive Kanban board view for Markdown files</div>
             </div>
-            <div class="text-[11px] font-mono text-cyan-400 font-bold pt-1">Kotlin // Android SDK</div>
+            <div class="text-[11px] font-mono text-cyan-400 font-bold pt-1">TypeScript // VS Code API</div>
           </a>
 
           <!-- DATA NODE 03: MD-KANBAN -->
-          <a href="https://github.com/jebakumarj/md-kanban" target="_blank" rel="noopener"
-            class="cyber-card rounded-3xl p-6 flex-1 flex flex-col justify-between group">
+          <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
+            class="cyber-card rounded-3xl p-6 short:p-4 flex-1 flex flex-col justify-between group">
             <div class="flex justify-between items-start font-mono">
-              <span class="text-[10px] uppercase tracking-widest text-[#ff0055] font-bold">📌 DATA_NODE_03</span>
-              <span
-                class="text-xl font-bold text-[#ff0055] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+              <span class="text-[10px] uppercase tracking-widest text-[#ff0055] font-bold">📄 DATA_NODE_03</span>
+              <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-300" data-repo="md-manager" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span
+                class="text-xl font-bold text-[#ff0055] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
             </div>
-            <div class="my-2 font-mono">
-              <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#ff0055] transition-colors">md-kanban</div>
-              <div class="text-xs text-slate-300 mt-1 line-clamp-2">Interactive Kanban board view for Markdown files</div>
+            <div class="my-2 short:my-1 font-mono">
+              <div class="font-display text-2xl short:text-xl font-extrabold text-white group-hover:text-[#ff0055] transition-colors">md-manager</div>
+              <div class="text-xs text-slate-300 mt-1 line-clamp-2 short:line-clamp-1 tiny:hidden">Markdown & Changelog manager with PDF export</div>
             </div>
-            <div class="text-[11px] font-mono text-pink-400 font-bold pt-1">TypeScript // VS Code API</div>
+            <div class="text-[11px] font-mono text-pink-400 font-bold pt-1">TypeScript // Node.js</div>
           </a>
         </div>
       </div>
 
       <!-- CYBER BOTTOM ROW DATA NODES -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-5 short:gap-3">
         <!-- DATA NODE 04: MD-MANAGER -->
-        <a href="https://github.com/jebakumarj/md-manager" target="_blank" rel="noopener"
-          class="md:col-span-4 cyber-card rounded-3xl p-6 flex flex-col justify-between group">
+        <a href="https://github.com/jebakumarj/kaasu-android" target="_blank" rel="noopener"
+          class="md:col-span-4 cyber-card rounded-3xl p-6 short:p-4 flex flex-col justify-between group">
           <div class="flex justify-between items-start font-mono">
-            <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📄 DATA_NODE_04</span>
-            <span class="text-xl font-bold text-[#ffee00] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            <span class="text-[10px] uppercase tracking-widest text-[#ffee00] font-bold">📱 DATA_NODE_04</span>
+            <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-300" data-repo="kaasu-android" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span class="text-xl font-bold text-[#ffee00] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
           </div>
-          <div class="my-2 font-mono">
-            <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#ffee00] transition-colors">md-manager</div>
-            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Markdown & Changelog manager with PDF export</div>
+          <div class="my-2 short:my-1 font-mono">
+            <div class="font-display text-2xl short:text-xl font-extrabold text-white group-hover:text-[#ffee00] transition-colors">kaasu-android</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Personal finance & expense tracking app for Android</div>
           </div>
-          <div class="text-[11px] font-mono text-[#ffee00] font-bold pt-1">TypeScript // Node.js</div>
+          <div class="text-[11px] font-mono text-[#ffee00] font-bold pt-1">Kotlin // Android SDK</div>
         </a>
 
         <!-- DATA NODE 05: HOMEPAGE -->
-        <a href="https://github.com/jebakumarj/homepage" target="_blank" rel="noopener"
-          class="md:col-span-4 cyber-card rounded-3xl p-6 flex flex-col justify-between group">
+        <a href="https://github.com/jebakumarj/deckdown" target="_blank" rel="noopener"
+          class="md:col-span-4 cyber-card rounded-3xl p-6 short:p-4 flex flex-col justify-between group">
           <div class="flex justify-between items-start font-mono">
-            <span class="text-[10px] uppercase tracking-widest text-[#00f0ff] font-bold">🌐 DATA_NODE_05</span>
-            <span class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+            <span class="text-[10px] uppercase tracking-widest text-[#00f0ff] font-bold">🎞️ DATA_NODE_05</span>
+            <span class="flex items-center gap-2"><span class="repo-stars hidden items-center gap-1 text-[11px] font-mono font-bold text-slate-300" data-repo="deckdown" title="GitHub stars"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg><span class="repo-stars-count"></span><span class="sr-only"> GitHub stars</span></span><span class="text-xl font-bold text-[#00f0ff] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span></span>
           </div>
-          <div class="my-2 font-mono">
-            <div class="font-display text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">homepage</div>
-            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Feature-rich customizable browser start page & bookmark suite</div>
+          <div class="my-2 short:my-1 font-mono">
+            <div class="font-display text-2xl short:text-xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">deckdown</div>
+            <div class="text-xs text-slate-300 mt-1 line-clamp-2">Markdown to minimal slide decks, in the browser</div>
           </div>
-          <div class="text-[11px] font-mono text-[#00f0ff] font-bold pt-1">JavaScript // HTML5</div>
+          <div class="text-[11px] font-mono text-[#00f0ff] font-bold pt-1">TypeScript // KaTeX</div>
         </a>
 
         <!-- CYBER TERMINAL CONTACT CARD -->
-        <div class="md:col-span-4 cyber-card rounded-3xl p-5 flex flex-col justify-between">
+        <div class="md:col-span-4 cyber-card rounded-3xl p-5 short:p-4 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2 font-mono">
               <h3 class="text-xs font-bold text-[#00f0ff] uppercase tracking-wider cyber-glow-cyan">&gt; TRANSMIT_MSG</h3>
               <span class="cyber-tag-yellow text-[9px]">NETLIFY_V2</span>
             </div>
-            <div id="form-status-cyber" class="hidden mb-2 text-xs font-mono"></div>
-            <form id="contact-form-cyber" name="contact-cyber" method="POST" data-netlify="true" class="space-y-2 font-mono">
+            <div id="form-status-cyber" role="status" aria-live="polite" class="hidden mb-2 text-xs font-mono"></div>
+            <form id="contact-form-cyber" name="contact-cyber" method="POST" data-netlify="true"
+              netlify-honeypot="bot-field" class="space-y-2 font-mono">
               <input type="hidden" name="form-name" value="contact-cyber">
-              <input type="text" name="name" required placeholder="[IDENTIFIER / NAME]"
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00]">
-              <input type="email" name="email" required placeholder="[COMMUNICATION / EMAIL]"
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00]">
-              <textarea name="message" rows="2" required placeholder="[TRANSMISSION CONTENT...]"
-                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-500 focus:outline-none focus:border-[#ffee00] resize-none"></textarea>
+              <p class="hidden"><input name="bot-field" tabindex="-1" autocomplete="off" /></p>
+              <input type="text" name="name" required aria-label="Your name" autocomplete="name" placeholder="[IDENTIFIER / NAME]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-400 focus:outline-none focus:border-[#ffee00]">
+              <input type="email" name="email" required aria-label="Your email" autocomplete="email" placeholder="[COMMUNICATION / EMAIL]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-400 focus:outline-none focus:border-[#ffee00]">
+              <textarea name="message" rows="2" required aria-label="Your message" placeholder="[TRANSMISSION CONTENT...]"
+                class="w-full px-3 py-1.5 text-xs rounded-xl bg-black/90 border border-cyan-500/60 text-cyan-200 placeholder-slate-400 focus:outline-none focus:border-[#ffee00] resize-none short:h-10"></textarea>
               <button type="submit"
-                class="w-full py-2 px-3 rounded-xl bg-[#ffee00] hover:bg-[#00f0ff] text-black font-extrabold text-xs transition-all shadow-[0_0_15px_rgba(255,238,0,0.5)] cursor-pointer tracking-wider">
+                class="w-full py-2 px-3 rounded-xl bg-[#ffee00] hover:bg-[#00f0ff] text-black font-extrabold text-xs transition-all shadow-[0_0_15px_rgba(255,238,0,0.5)] cursor-pointer tracking-wider disabled:opacity-60 disabled:cursor-not-allowed">
                 ENGAGE_TRANSMISSION ⚡
               </button>
             </form>
