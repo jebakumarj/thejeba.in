@@ -29,6 +29,22 @@
     })();
   </script>
 
+  <!-- Google Analytics 4 (production domain only, so local and deploy-preview visits aren't counted) -->
+  <script>
+    (function () {
+      var GA_ID = 'G-1YZ0Q0EBRM';
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      if (!/^(www\.)?thejeba\.in$/.test(location.hostname)) return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+    })();
+  </script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

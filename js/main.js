@@ -7,10 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   initRepoStars();
 });
 
+// Google Analytics event helper (gtag is stubbed in <head>, so this is safe when GA isn't loaded)
+function trackEvent(name, params) {
+  try { window.gtag && window.gtag('event', name, params); } catch (e) { }
+}
+
 const ACTIVE_BTN_CLASSES = ['bg-indigo-600', 'text-white', 'shadow-md'];
 const INACTIVE_BTN_CLASSES = ['text-slate-600', 'dark:text-slate-400', 'hover:text-slate-900', 'dark:hover:text-white'];
 
 function switchTheme(themeName) {
+  if (document.documentElement.getAttribute('data-theme') !== themeName) trackEvent('layout_theme_change', { layout_theme: themeName });
   document.documentElement.setAttribute('data-theme', themeName);
   try { localStorage.setItem('portfolio-layout-theme', themeName); } catch (e) { }
 
@@ -56,6 +62,7 @@ function toggleDarkLight() {
   htmlEl.classList.toggle('dark');
   const isDark = htmlEl.classList.contains('dark');
   try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { }
+  trackEvent('color_mode_change', { color_mode: isDark ? 'dark' : 'light' });
 }
 
 function initThemeAndLayout() {
@@ -109,6 +116,7 @@ function initFormSubmissions() {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         form.reset();
         showStatus('✓ Thank you! Your message has been sent.', true);
+        trackEvent('generate_lead', { form_theme: theme });
       } catch (err) {
         showStatus('✗ Could not send. Please email jjebakumar@outlook.com instead.', false);
       } finally {
@@ -123,6 +131,7 @@ function initCopyEmail() {
   if (!copyBtn) return;
 
   copyBtn.addEventListener('click', () => {
+    trackEvent('copy_email');
     const email = 'jjebakumar@outlook.com';
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(email).then(showCopiedStatus).catch(() => fallbackCopy(email));
